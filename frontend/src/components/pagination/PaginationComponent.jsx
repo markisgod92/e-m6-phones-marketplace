@@ -16,7 +16,7 @@ export const PaginationComponent = ({ pages, currentPage, setCurrentPage }) => {
     }
 
     return (
-        <div>
+        <div className="d-flex justify-content-center align-items-center p-4">
             <Pagination>
                 {items}
             </Pagination>

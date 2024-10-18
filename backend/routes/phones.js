@@ -107,4 +107,64 @@ phones.post('/phone', async (req, res) => {
     }
 })
 
+phones.patch('/phone/:phoneId', async (req, res) => {
+    const { phoneId } = req.params
+    const phoneExists = await PhoneModel.findById(phoneId)
+
+    if(!phoneExists) {
+        return res.status(400)
+            .send({
+                statusCode: 400,
+                message: `Phone with ID ${phoneId} not found.`
+            })
+    }
+
+    try {
+        const updatedPhoneData = req.body
+        const options = { new: true }
+
+        const result = await PhoneModel.findByIdAndUpdate(phoneId, updatedPhoneData, options)
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: `${phoneId} updated successfully.`,
+                result
+            })
+    } catch (error) {
+        res.status(500)
+            .send({
+                statusCode: 500,
+                message: error.message
+            })
+    }
+})
+
+phones.delete('/phone/:phoneId', async (req, res) => {
+    const { phoneId } = req.params
+
+    try {
+        const result = await PhoneModel.findByIdAndDelete(phoneId)
+
+        if(!result) {
+            return res.status(404).send({
+                statusCode: 404,
+                message: `${phoneId} not found.`
+            });
+        }
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                message: `${phoneId} deleted.`
+            })
+    } catch (error) {
+        res.status(500)
+            .send({
+                statusCode: 500,
+                message: error.message
+            })
+    }
+})
+
 module.exports = phones

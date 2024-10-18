@@ -9,8 +9,10 @@ server.use(cors())
 server.use(express.json())
 
 const phonesRoutes = require('./routes/phones')
+const reviewsRoutes = require('./routes/reviews')
 
 server.use('/', phonesRoutes)
+server.use('/', reviewsRoutes)
 
 init()
 

@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const ReviewSchema = new mongoose.Schema({
     phoneId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'phoneModel',
+        type: String,
         required: true
     },
     username: {

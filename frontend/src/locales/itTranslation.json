@@ -9,5 +9,9 @@
     "available": "Disponibile",
     "notAvailable": "Non disponibile",
     "details": "Dettagli",
-    "price": "Prezzo"
+    "price": "Prezzo",
+    "reviews": "Recensioni",
+    "noReviews": "Non ci sono recensioni.",
+    "makeReview": "Scrivi recensione",
+    "send": "Invia"
 }

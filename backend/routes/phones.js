@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const phones = express.Router()
 const PhoneModel = require('../models/PhoneModel')
 
@@ -30,11 +31,11 @@ phones.get('/phones', async (req, res) => {
     const { page = 1, limit = 10 } = req.query
 
     try {
-        const response = await PhoneModel.find(filter)
+        const phones = await PhoneModel.find(filter)
             .limit(limit)
             .skip((page - 1) * limit)
 
-        if (response.length === 0) {
+        if (phones.length === 0) {
             return res.status(404)
                 .send({
                     statusCode: 404,
@@ -42,11 +43,16 @@ phones.get('/phones', async (req, res) => {
                 })
         }
 
+        const totalPhones = await PhoneModel.countDocuments()
+        const totalPages = Math.ceil(totalPhones / limit)
+
         res.status(200)
             .send({
                 statusCode: 200,
                 message: 'Phones found.',
-                response
+                totalPhones: totalPhones,
+                totalPages: totalPages,
+                phones
             })
     } catch (error) {
         res.status(500)

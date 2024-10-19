@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
 
 export const UserDropdown = () => {
-    const {loggedUser, userLogin} = useContext(LoginContext)
+    const {loggedUser, userLogout} = useContext(LoginContext)
     const {t} = useTranslation()
 
     return (
@@ -18,7 +18,7 @@ export const UserDropdown = () => {
                 <Dropdown.Item>{t('wishlist')}</Dropdown.Item>
                 <Dropdown.Item>{t('cart')}</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={userLogin}>Logout</Dropdown.Item>
+                <Dropdown.Item onClick={userLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     )

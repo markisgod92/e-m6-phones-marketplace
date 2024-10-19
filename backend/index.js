@@ -10,9 +10,11 @@ server.use(express.json())
 
 const phonesRoutes = require('./routes/phones')
 const reviewsRoutes = require('./routes/reviews')
+const usersRoutes = require('./routes/users')
 
 server.use('/', phonesRoutes)
 server.use('/', reviewsRoutes)
+server.use('/', usersRoutes)
 
 init()
 

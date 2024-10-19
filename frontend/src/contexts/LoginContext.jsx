@@ -3,19 +3,42 @@ import { createContext, useState } from "react";
 export const LoginContext = createContext()
 
 export const LoginContextProvider = ({ children }) => {
-    const [isUserAuthenticated, setUserAuthenticated] = useState(true)
-    const [loggedUser, setLoggedUser] = useState({
-        username: 'pinco_pallino',
-        avatar: 'https://picsum.photos/200/300'
-    })
+    const [isUserAuthenticated, setUserAuthenticated] = useState(false)
+    const [loggedUser, setLoggedUser] = useState({})
 
-    const userLogin = () => {
-        setUserAuthenticated(prev => !prev)
+    console.log('Logged user: ', loggedUser)
+
+    const userLogin = async (credentials) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(credentials)
+            })
+
+            if(response.ok) {
+                const authentication = await response.json()
+                setLoggedUser(authentication.userFound)
+                setUserAuthenticated(true)
+            } else {
+                const errorResponse = await response.json()
+                throw new Error(errorResponse.message)
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const userLogout = () => {
+        setLoggedUser({})
+        setUserAuthenticated(false)
     }
 
     return (
         <LoginContext.Provider
-            value={{ isUserAuthenticated, loggedUser, userLogin }}
+            value={{ isUserAuthenticated, loggedUser, userLogin, userLogout }}
         >
             { children }
         </LoginContext.Provider>

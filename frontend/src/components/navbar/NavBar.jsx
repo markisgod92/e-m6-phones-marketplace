@@ -1,12 +1,14 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Button, Container, Dropdown } from "react-bootstrap"
 import { LoginContext } from "../../contexts/LoginContext"
 import './navbar.css'
 import { UserDropdown } from "./UserDropdown"
 import { Link } from "react-router-dom"
+import { LoginModal } from "../login-modal/LoginModal"
 
 export const NavBar = () => {
-    const { isUserAuthenticated, userLogin } = useContext(LoginContext)
+    const { isUserAuthenticated } = useContext(LoginContext)
+    const [showModal, setShowModal] = useState(false)
 
     return (
         <nav>
@@ -22,7 +24,7 @@ export const NavBar = () => {
                     </ul>
                     <div>
                         {!isUserAuthenticated && (
-                            <Button variant="primary" onClick={userLogin}>Login</Button>
+                            <Button variant="primary" onClick={() => setShowModal(true)}>Login</Button>
                         )}
 
                         {isUserAuthenticated && (
@@ -31,6 +33,7 @@ export const NavBar = () => {
                     </div>
                 </div>
             </Container>
+            <LoginModal showModal={showModal} setShowModal={setShowModal} />
         </nav>
     )
 }

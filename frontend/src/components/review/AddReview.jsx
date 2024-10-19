@@ -3,7 +3,7 @@ import { RatingStars } from "./RatingStars"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-export const AddReview = ({ phoneId }) => {
+export const AddReview = ({ phoneId, reviewEditorOffFc }) => {
 
     const { t } = useTranslation()
     const [newReview, setNewReview] = useState({
@@ -41,17 +41,15 @@ export const AddReview = ({ phoneId }) => {
     }
 
     return (
-        <div className="d-flex flex-column gap-3">
-            <RatingStars
-                value={newReview.rating}
-                isEditable={true}
-                onChange={(newRating) =>
-                    setNewReview({
-                        ...newReview,
-                        rating: newRating,
-                    })
-                }
-            />
+        <div className="d-flex flex-column gap-3 py-3">
+            <div className="text-end">
+                <Button
+                    variant="secondary-outline"
+                    onClick={reviewEditorOffFc}
+                >
+                    X
+                </Button>
+            </div>
             <Form>
                 <Form.Control
                     value={newReview.comment}
@@ -61,13 +59,32 @@ export const AddReview = ({ phoneId }) => {
                     placeholder={t('makeReview')}
                 />
             </Form>
-            <Button
-                variant="primary"
-                onClick={postReview}
-                disabled={!validateComment()}
-            >
-                {t('send')}
-            </Button>
+            <div className="d-flex justify-content-between">
+                <div className="d-flex gap-3 align-items-center">
+                    <div>{t('evaluateProduct')}</div>
+                    <RatingStars
+                        value={newReview.rating}
+                        isEditable={true}
+                        onChange={(newRating) =>
+                            setNewReview({
+                                ...newReview,
+                                rating: newRating,
+                            })
+                        }
+                    />
+                </div>
+
+
+                <div>
+                    <Button
+                        variant="primary"
+                        onClick={postReview}
+                        disabled={!validateComment()}
+                    >
+                        {t('send')}
+                    </Button>
+                </div>
+            </div>
         </div>
     )
 }

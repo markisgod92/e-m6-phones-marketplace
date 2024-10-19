@@ -12,6 +12,7 @@
     "price": "Prezzo",
     "reviews": "Recensioni",
     "noReviews": "Non ci sono recensioni.",
-    "makeReview": "Scrivi recensione",
-    "send": "Invia"
+    "makeReview": "Lascia una recensione",
+    "send": "Invia",
+    "evaluateProduct": "Valuta il prodotto:"
 }

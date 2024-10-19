@@ -66,16 +66,19 @@ export const ProductPage = () => {
                                 {productData.description}
                             </Col>
                         </Row>
-                        <Row>
-                            <h5>{t('reviews')}</h5>
-                            <Button
-                                variant="primary"
-                                onClick={toggleReviewEditor}
-                            >
-                                {t('makeReview')}
-                            </Button>
+                        <Row className="mt-5">
+                            <h4 className="mb-3">{t('reviews')}</h4>
 
-                            {isWriteReviewOn && <AddReview phoneId={productData._id} />}
+                            {!isWriteReviewOn && (
+                                <Button
+                                    variant="primary"
+                                    onClick={toggleReviewEditor}
+                                >
+                                    {t('makeReview')}
+                                </Button>
+                            )}
+
+                            {isWriteReviewOn && <AddReview phoneId={productData._id} reviewEditorOffFc={() => setWriteReviewOn(false)} />}
 
                             {productReviews
                                 ? productReviews.map(review => <SingleReview data={review} />)

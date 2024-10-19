@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { PhoneCard } from '../components/phone-card/PhoneCard';
 import { Col, Container, Row } from 'react-bootstrap';
 import { PaginationComponent } from '../components/pagination/PaginationComponent';
+import { NavAndFooterContextProvider } from '../contexts/NavAndFooterContext';
 
 export const Homepage = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -23,29 +24,31 @@ export const Homepage = () => {
     }, [currentPage])
 
     return (
-        <main>
-            <Container>
-                <Row className='row-cols-3 g-3'>
-                    {fetchData && fetchData.phones && (
-                        fetchData.phones.map(phone => (
-                            <Col
-                                key={phone._id}
-                            >
-                                <PhoneCard data={phone} />
-                            </Col>
-                        ))
-                    )}
-                </Row>
-                <Row>
-                    {fetchData && fetchData.phones && (
-                        <PaginationComponent
-                            pages={fetchData.totalPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    )}
-                </Row>
-            </Container>
-        </main>
+        <NavAndFooterContextProvider>
+            <main>
+                <Container>
+                    <Row className='row-cols-3 g-3'>
+                        {fetchData && fetchData.phones && (
+                            fetchData.phones.map(phone => (
+                                <Col
+                                    key={phone._id}
+                                >
+                                    <PhoneCard data={phone} />
+                                </Col>
+                            ))
+                        )}
+                    </Row>
+                    <Row>
+                        {fetchData && fetchData.phones && (
+                            <PaginationComponent
+                                pages={fetchData.totalPages}
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                            />
+                        )}
+                    </Row>
+                </Container>
+            </main>
+        </NavAndFooterContextProvider>
     )
 }

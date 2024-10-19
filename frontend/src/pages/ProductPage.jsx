@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button, Col, Container, Row } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { SingleReview } from "../components/review/SingleReview"
 import { AddReview } from "../components/review/AddReview"
+import { NavAndFooterContextProvider } from "../contexts/NavAndFooterContext"
+import { LoginContext } from "../contexts/LoginContext"
 
 export const ProductPage = () => {
     const [productData, setProductData] = useState(null)
     const [productReviews, setProductReviews] = useState([])
     const [isWriteReviewOn, setWriteReviewOn] = useState(false)
     const { phoneId } = useParams()
+    const {isUserAuthenticated} = useContext(LoginContext)
     const { t } = useTranslation()
 
     const getPhoneData = async () => {
@@ -42,52 +45,54 @@ export const ProductPage = () => {
     }, [])
 
     return (
-        <main>
-            <Container>
-                {productData && (
-                    <>
-                        <Row>
-                            <Col xs={12} md={6}>
-                                <img src={productData.imageUrl} alt={productData.name} />
-                            </Col>
-                            <Col xs={12} md={6}>
-                                <h2>{productData.name}</h2>
-                                <h5>{productData.brand} - {productData.model}</h5>
-                                <p>{t('storage')}: {productData.storageCapacity}GB</p>
-                                <p>{t('color')}: {productData.color}</p>
-                                <p>{t('condition')}: {t(productData.condition)}</p>
-                                <p>{t('price')}:
-                                    <span className="fs-5 fw-bold"> {productData.price.toFixed(2)}€</span>
-                                </p>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {productData.description}
-                            </Col>
-                        </Row>
-                        <Row className="mt-5">
-                            <h4 className="mb-3">{t('reviews')}</h4>
+        <NavAndFooterContextProvider>
+            <main>
+                <Container>
+                    {productData && (
+                        <>
+                            <Row>
+                                <Col xs={12} md={6}>
+                                    <img src={productData.imageUrl} alt={productData.name} />
+                                </Col>
+                                <Col xs={12} md={6}>
+                                    <h2>{productData.name}</h2>
+                                    <h5>{productData.brand} - {productData.model}</h5>
+                                    <p>{t('storage')}: {productData.storageCapacity}GB</p>
+                                    <p>{t('color')}: {productData.color}</p>
+                                    <p>{t('condition')}: {t(productData.condition)}</p>
+                                    <p>{t('price')}:
+                                        <span className="fs-5 fw-bold"> {productData.price.toFixed(2)}€</span>
+                                    </p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    {productData.description}
+                                </Col>
+                            </Row>
+                            <Row className="mt-5">
+                                <h4 className="mb-3">{t('reviews')}</h4>
 
-                            {!isWriteReviewOn && (
-                                <Button
-                                    variant="primary"
-                                    onClick={toggleReviewEditor}
-                                >
-                                    {t('makeReview')}
-                                </Button>
-                            )}
+                                {!isWriteReviewOn && isUserAuthenticated && (
+                                    <Button
+                                        variant="primary"
+                                        onClick={toggleReviewEditor}
+                                    >
+                                        {t('makeReview')}
+                                    </Button>
+                                )}
 
-                            {isWriteReviewOn && <AddReview phoneId={productData._id} reviewEditorOffFc={() => setWriteReviewOn(false)} />}
+                                {isWriteReviewOn && <AddReview phoneId={productData._id} reviewEditorOffFc={() => setWriteReviewOn(false)} />}
 
-                            {productReviews
-                                ? productReviews.map(review => <SingleReview data={review} />)
-                                : <div>{t('noReviews')}</div>
-                            }
-                        </Row>
-                    </>
-                )}
-            </Container>
-        </main>
+                                {productReviews
+                                    ? productReviews.map((review, i) => <SingleReview key={`review-${i}`} data={review} />)
+                                    : <div>{t('noReviews')}</div>
+                                }
+                            </Row>
+                        </>
+                    )}
+                </Container>
+            </main>
+        </NavAndFooterContextProvider>
     )
 }

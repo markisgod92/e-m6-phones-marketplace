@@ -1,14 +1,15 @@
 import { Button, Form } from "react-bootstrap"
 import { RatingStars } from "./RatingStars"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { LoginContext } from "../../contexts/LoginContext"
 
 export const AddReview = ({ phoneId, reviewEditorOffFc }) => {
-
+    const {loggedUser} = useContext(LoginContext)
     const { t } = useTranslation()
     const [newReview, setNewReview] = useState({
         phoneId: phoneId,
-        username: 'pinco_pallino',
+        username: loggedUser.username,
         comment: '',
         rating: 1
     })

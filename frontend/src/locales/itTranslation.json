@@ -16,5 +16,7 @@
     "send": "Invia",
     "evaluateProduct": "Valuta il prodotto:",
     "wishlist": "Lista dei desideri",
-    "cart": "Carrello"
+    "cart": "Carrello",
+    "createAccount": "Crea un account",
+    "register": "Registrati"
 }

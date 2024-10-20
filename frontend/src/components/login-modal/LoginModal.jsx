@@ -1,16 +1,17 @@
 import { useContext, useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { LoginContext } from '../../contexts/LoginContext'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const LoginModal = ({ showModal, setShowModal }) => {
-    const {userLogin} = useContext(LoginContext)
+    const { userLogin } = useContext(LoginContext)
     const [inputData, setInputData] = useState({
         username: '',
         password: ''
     })
     const [alert, setAlert] = useState('')
-
-    console.log(inputData)
+    const {t} = useTranslation()
 
     const handleInputData = (event) => {
         setInputData({
@@ -54,13 +55,16 @@ export const LoginModal = ({ showModal, setShowModal }) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer className='d-flex flex-column gap-3'>
-                <Button
-                    variant="primary"
-                    disabled={!validateInput()}
-                    onClick={() => login()}
-                >
-                    Login
-                </Button>
+                <div className='d-flex justify-content-center align-items-center gap-5'>
+                    <Link to='/register' className='text-unstyled fw-bold'>{t('createAccount')}</Link>
+                    <Button
+                        variant="primary"
+                        disabled={!validateInput()}
+                        onClick={() => login()}
+                    >
+                        Login
+                    </Button>
+                </div>
                 <div className='text-danger'>{alert}</div>
             </Modal.Footer>
         </Modal>

@@ -15,6 +15,7 @@ export const UserDropdown = () => {
 
             <Dropdown.Menu>
                 <Dropdown.Header>{loggedUser.username}</Dropdown.Header>
+                <Dropdown.Divider />
                 <Dropdown.Item>{t('wishlist')}</Dropdown.Item>
                 <Dropdown.Item>{t('cart')}</Dropdown.Item>
                 <Dropdown.Divider />

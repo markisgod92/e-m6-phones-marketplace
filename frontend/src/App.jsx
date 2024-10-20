@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Homepage } from './pages/Homepage';
 import { ProductPage } from './pages/ProductPage';
 import { LoginContextProvider } from './contexts/LoginContext';
+import { CreateAccount } from './pages/CreateAccount';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Homepage />} />
           <Route path='/product/:phoneId' element={<ProductPage />} />
+          <Route path='/register' element={<CreateAccount />} />
         </Routes>
       </BrowserRouter>
     </LoginContextProvider>

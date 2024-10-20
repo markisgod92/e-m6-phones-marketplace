@@ -15,8 +15,8 @@ export const CreateAccount = () => {
     })
     const {setLoggedUser, setUserAuthenticated} = useContext(LoginContext)
     const navigate = useNavigate()
-
-    console.log(inputData)
+    const [isUsernameUnique, setUsernameUnique] = useState(true)
+    const [isEmailUnique, setEmailUnique] = useState(true)
 
     const validateInput = () => {
         return inputData.username && inputData.email && inputData.password.length >= 8 && inputData.avatar
@@ -27,6 +27,30 @@ export const CreateAccount = () => {
             ...inputData,
             [event.target.name]: event.target.value
         })
+    }
+
+    const checkUnique = async (key, value) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/check-user?${key}=${value}`)
+            if (response.ok) {
+                const data = await response.json()
+                return data.isUnique
+              }
+              return false
+        } catch (error) {
+            console.error(error)
+            return false
+        }
+    }
+
+    const handleUsernameBlur = async () => {
+        const isUnique = await checkUnique('username', inputData.username)
+        setUsernameUnique(isUnique)
+    }
+
+    const handleEmailBlur = async () => {
+        const isUnique = await checkUnique('email', inputData.email)
+        setEmailUnique(isUnique)
     }
 
     const createAccount = async () => {
@@ -70,10 +94,15 @@ export const CreateAccount = () => {
                                         name='username'
                                         value={inputData.username}
                                         onChange={(e) => handleInput(e)}
+                                        onBlur={handleUsernameBlur}
                                     />
                                 </Col>
                                 <Col sm={12}>
-
+                                    {!isUsernameUnique && (
+                                        <div className='text-danger text-end'>
+                                            {t('usernameNotUnique')}
+                                        </div>
+                                    )}
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row}>
@@ -86,7 +115,15 @@ export const CreateAccount = () => {
                                         name='email'
                                         value={inputData.email}
                                         onChange={(e) => handleInput(e)}
+                                        onBlur={handleEmailBlur}
                                     />
+                                </Col>
+                                <Col sm={12}>
+                                    {!isEmailUnique && (
+                                        <div className='text-danger text-end'>
+                                            {t('emailNotUnique')}
+                                        </div>
+                                    )}
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row}>

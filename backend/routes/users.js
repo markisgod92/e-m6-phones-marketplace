@@ -33,6 +33,36 @@ users.get('/user/:userId', async (req, res) => {
     }
 })
 
+users.get('/check-user', async (req, res) => {
+    const [key, value] = Object.entries(req.query)[0]
+    
+    try {
+        const user = await UserModel.findOne({ [key]: value })
+
+        if(user) {
+            return res.status(409)
+                .send({
+                    statusCode: 409,
+                    message: `${key} not unique.`,
+                    isUnique: false
+                })
+        }
+
+        res.status(200)
+            .send({
+                statusCode: 200,
+                isUnique: true
+            })
+
+    } catch (error) {
+        res.status(500)
+            .send({
+                statusCode: 500,
+                message: error.message
+            })
+    }
+})
+
 users.post('/user/create', async (req, res) => {
     const newUser = new UserModel(req.body)
 

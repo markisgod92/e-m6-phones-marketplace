@@ -18,5 +18,7 @@
     "wishlist": "Lista dei desideri",
     "cart": "Carrello",
     "createAccount": "Crea un account",
-    "register": "Registrati"
+    "register": "Registrati",
+    "usernameNotUnique": "Nome utente già in uso",
+    "emailNotUnique": "Email già in uso"
 }

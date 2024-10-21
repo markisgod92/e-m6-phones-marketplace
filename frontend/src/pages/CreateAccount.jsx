@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { NavAndFooterContextProvider } from '../contexts/NavAndFooterContext';
 import {Container, Row, Col, Form, Button} from 'react-bootstrap'
 import { useContext, useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../contexts/LoginContext';
 
 export const CreateAccount = () => {

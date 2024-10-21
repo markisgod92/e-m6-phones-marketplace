@@ -5,10 +5,16 @@ import './navbar.css'
 import { UserDropdown } from "./UserDropdown"
 import { Link } from "react-router-dom"
 import { LoginModal } from "../login-modal/LoginModal"
+import { useTranslation } from "react-i18next"
 
 export const NavBar = () => {
     const { isUserAuthenticated } = useContext(LoginContext)
     const [showModal, setShowModal] = useState(false)
+    const { t, i18n } = useTranslation()
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng)
+    }
 
     return (
         <nav>
@@ -19,17 +25,31 @@ export const NavBar = () => {
                         <Link to={'/'} className="text-decoration-none text-body">
                             <li>Home</li>
                         </Link>
-                        <li>About</li>
+                        <li>{t('aboutUs')}</li>
                         <li>Privacy Policy</li>
                     </ul>
-                    <div>
-                        {!isUserAuthenticated && (
-                            <Button variant="primary" onClick={() => setShowModal(true)}>Login</Button>
-                        )}
+                    <div className="d-flex align-items-center gap-3">
+                        <Dropdown>
+                            <Dropdown.Toggle
+                                variant="secondary-outline"
+                            >
+                                {i18n.language}
+                            </Dropdown.Toggle>
 
-                        {isUserAuthenticated && (
-                            <UserDropdown />
-                        )}
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => changeLanguage('it')}>Italiano</Dropdown.Item>
+                                <Dropdown.Item onClick={() => changeLanguage('en')}>English</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <div>
+                            {!isUserAuthenticated && (
+                                <Button variant="primary" onClick={() => setShowModal(true)}>Login</Button>
+                            )}
+
+                            {isUserAuthenticated && (
+                                <UserDropdown />
+                            )}
+                        </div>
                     </div>
                 </div>
             </Container>

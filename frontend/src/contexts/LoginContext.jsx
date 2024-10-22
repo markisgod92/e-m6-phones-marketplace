@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const LoginContext = createContext()
 
@@ -20,7 +20,14 @@ export const LoginContextProvider = ({ children }) => {
 
             if(response.ok) {
                 const authentication = await response.json()
-                setLoggedUser(authentication.userFound)
+                const userData = {
+                    username: authentication.userFound.username,
+                    id: authentication.userFound._id,
+                    email: authentication.userFound.email,
+                    avatar: authentication.userFound.avatar
+                }
+                localStorage.setItem('user', JSON.stringify(userData))
+                setLoggedUser(userData)
                 setUserAuthenticated(true)
             } else {
                 const errorResponse = await response.json()
@@ -32,9 +39,18 @@ export const LoginContextProvider = ({ children }) => {
     }
 
     const userLogout = () => {
+        localStorage.removeItem('user')
         setLoggedUser({})
         setUserAuthenticated(false)
     }
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+            setLoggedUser(JSON.parse(storedUser))
+            setUserAuthenticated(true)
+        }
+    }, [])
 
     return (
         <LoginContext.Provider

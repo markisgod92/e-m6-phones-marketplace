@@ -7,6 +7,7 @@ import { ProductPage } from './pages/ProductPage';
 import { LoginContextProvider } from './contexts/LoginContext';
 import { CreateAccount } from './pages/CreateAccount';
 import { SellProduct } from './pages/SellProduct';
+import { ProtectedRoutes } from './middleware/ProtectedRoutes';
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
           <Route exact path='/' element={<Homepage />} />
           <Route path='/product/:phoneId' element={<ProductPage />} />
           <Route path='/register' element={<CreateAccount />} />
-          <Route path='/sell' element={<SellProduct />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path='/sell' element={<SellProduct />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </LoginContextProvider>

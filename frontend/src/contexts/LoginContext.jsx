@@ -26,7 +26,7 @@ export const LoginContextProvider = ({ children }) => {
                     email: authentication.userFound.email,
                     avatar: authentication.userFound.avatar
                 }
-                localStorage.setItem('user', JSON.stringify(userData))
+                localStorage.setItem('Auth', JSON.stringify(userData))
                 setLoggedUser(userData)
                 setUserAuthenticated(true)
             } else {
@@ -39,13 +39,13 @@ export const LoginContextProvider = ({ children }) => {
     }
 
     const userLogout = () => {
-        localStorage.removeItem('user')
+        localStorage.removeItem('Auth')
         setLoggedUser({})
         setUserAuthenticated(false)
     }
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user')
+        const storedUser = localStorage.getItem('Auth')
         if (storedUser) {
             setLoggedUser(JSON.parse(storedUser))
             setUserAuthenticated(true)

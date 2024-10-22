@@ -41,6 +41,15 @@ export const NavBar = () => {
                                 <Dropdown.Item onClick={() => changeLanguage('en')}>English</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
+                        {isUserAuthenticated && (
+                            <Link to='/sell'>
+                                <Button
+                                    variant="primary"
+                                >
+                                    {t('sellProduct')}
+                                </Button>
+                            </Link>
+                        )}
                         <div>
                             {!isUserAuthenticated && (
                                 <Button variant="primary" onClick={() => setShowModal(true)}>Login</Button>

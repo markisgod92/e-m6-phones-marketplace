@@ -12,7 +12,6 @@ export const Homepage = () => {
         try {
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/phones?page=${currentPage}&limit=9`)
             const data = await response.json()
-            console.log(data.phones)
             setFetchData(data)
         } catch (error) {
             console.error('Error fetching phones.', error)

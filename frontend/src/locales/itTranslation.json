@@ -1,5 +1,9 @@
 {
+    "title": "Titolo",
+    "model": "Modello",
+    "image": "Immagine",
     "condition": "Condizione",
+    "choose": "Scegli",
     "new": "Nuovo",
     "like_new": "Come nuovo",
     "used": "Usato",
@@ -22,5 +26,7 @@
     "usernameNotUnique": "Nome utente già in uso",
     "emailNotUnique": "Email già in uso",
     "aboutUs": "Chi siamo",
+    "alreadyLogged": "Hai già effettuato il login",
+    "sellProduct": "Crea un annuncio",
     "companyDesc": "Benvenuti nel nostro marketplace, un punto di riferimento per chi opera in settori non convenzionali. Siamo specializzati nel facilitare il commercio di dispositivi elettronici di origine particolare, soddisfacendo le esigenze di professionisti che si occupano di recupero e ridistribuzione rapida di beni ad alto valore. Che tu sia un esperto nel reperimento di beni senza troppi intermediari, un operatore nel settore del contrabbando tecnologico, o semplicemente qualcuno alla ricerca di un metodo alternativo per cedere dispositivi non più necessari, la nostra piattaforma offre uno spazio sicuro e riservato per le tue transazioni. Operiamo con la massima discrezione, garantendo che ogni scambio avvenga nel rispetto delle necessità di privacy e urgenza dei nostri utenti. Offriamo un'ampia gamma di telefoni di ultima generazione, pronti per essere immessi nuovamente nel mercato, indipendentemente dalla loro provenienza. Unisciti a noi e scopri come possiamo semplificare il tuo business, sempre fuori dai soliti schemi."
 }

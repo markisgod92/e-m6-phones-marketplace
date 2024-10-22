@@ -1,8 +1,11 @@
 import { useContext, useState } from "react"
 import { NavAndFooterContextProvider } from "../contexts/NavAndFooterContext"
 import { LoginContext } from "../contexts/LoginContext"
-import { Button, Col, Row, Container, Form } from "react-bootstrap"
+import { Button, Col, Row, Container, Form, Spinner } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
+import { CustomError } from '../exceptions/CustomError'
+import { ErrorNotification } from "../components/loaderAndError/ErrorNotification"
 
 export const SellProduct = () => {
     const { isUserAuthenticated } = useContext(LoginContext)
@@ -19,6 +22,8 @@ export const SellProduct = () => {
         condition: ''
     })
     const [formErrors, setFormErrors] = useState({})
+    const [isLoading, setLoading] = useState(false)
+    const [fetchError, setFetchError] = useState(null)
 
     const handleInputChange = (event) => {
         setNewProduct({
@@ -55,8 +60,9 @@ export const SellProduct = () => {
     }
 
     const createProduct = async () => {
-        if(formErrors && Object.keys(formErrors).length !== 0) throw new Error('Form errors.')
-        if(!validateProduct) throw new Error('Product data not valid.')
+        if (!validateProduct) throw new Error('Product data not valid.')
+
+        setLoading(true)
 
         try {
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/phone`, {
@@ -67,9 +73,18 @@ export const SellProduct = () => {
                 body: JSON.stringify(newProduct)
             })
             const data = await response.json()
-            alert(data.message)
+
+            if (!response.ok) {
+                throw new CustomError(data.statusCode, data.message)
+            }
+
+            const navigate = useNavigate()
+            navigate(`/product/${data.phone._id}`)
+
         } catch (error) {
-            console.error(error)
+            setFetchError(error.toObject())
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -299,9 +314,21 @@ export const SellProduct = () => {
                                         disabled={!validateProduct()}
                                         onClick={createProduct}
                                     >
+                                        {isLoading && (
+                                            <Spinner
+                                                as="span"
+                                                animation="grow"
+                                                size="sm"
+                                                role="status"
+                                                className="me-3"
+                                            />
+                                        )}
                                         {t('sellProduct')}
                                     </Button>
                                 </div>
+                                {fetchError && (
+                                    <ErrorNotification error={fetchError} />
+                                )}
                             </Row>
                         </>
                     )}

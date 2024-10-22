@@ -5,7 +5,7 @@ import { PaginationComponent } from '../components/pagination/PaginationComponen
 import { NavAndFooterContextProvider } from '../contexts/NavAndFooterContext';
 import { Loader } from '../components/loaderAndError/Loader';
 import { ErrorNotification } from '../components/loaderAndError/ErrorNotification';
-import {CustomError} from '../exceptions/exception'
+import {CustomError} from '../exceptions/CustomError'
 
 export const Homepage = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -18,13 +18,12 @@ export const Homepage = () => {
 
         try {
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/phones?page=${currentPage}&limit=9`)
+            const data = await response.json()
 
             if(!response.ok) {
-                const errorData = await response.json()
-                throw new CustomError(errorData.statusCode, errorData.message)
+                throw new CustomError(data.statusCode, data.message)
             }
 
-            const data = await response.json()
             setFetchData(data)
         } catch (error) {
             setFetchError(error.toObject())

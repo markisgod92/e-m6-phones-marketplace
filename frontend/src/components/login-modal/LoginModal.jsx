@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, Spinner } from 'react-bootstrap'
 import { LoginContext } from '../../contexts/LoginContext'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -10,8 +10,9 @@ export const LoginModal = ({ showModal, setShowModal }) => {
         username: '',
         password: ''
     })
+    const [isLoading, setLoading] = useState(false)
     const [alert, setAlert] = useState('')
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     const handleInputData = (event) => {
         setInputData({
@@ -25,11 +26,15 @@ export const LoginModal = ({ showModal, setShowModal }) => {
     }
 
     const login = async () => {
+        setLoading(true)
+
         try {
             await userLogin(inputData)
             setShowModal(false)
         } catch (error) {
             setAlert(error.message)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -62,6 +67,15 @@ export const LoginModal = ({ showModal, setShowModal }) => {
                         disabled={!validateInput()}
                         onClick={() => login()}
                     >
+                        {isLoading && (
+                            <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                className="me-3"
+                            />
+                        )}
                         Login
                     </Button>
                 </div>

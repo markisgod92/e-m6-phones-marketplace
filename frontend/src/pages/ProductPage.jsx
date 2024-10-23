@@ -12,7 +12,7 @@ export const ProductPage = () => {
     const [productReviews, setProductReviews] = useState([])
     const [isWriteReviewOn, setWriteReviewOn] = useState(false)
     const { phoneId } = useParams()
-    const {isUserAuthenticated} = useContext(LoginContext)
+    const { isUserAuthenticated } = useContext(LoginContext)
     const { t } = useTranslation()
 
     const getPhoneData = async () => {
@@ -65,24 +65,34 @@ export const ProductPage = () => {
                                     </p>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="pb-5">
                                 <Col>
                                     {productData.description}
                                 </Col>
                             </Row>
-                            <Row className="mt-5">
-                                <h4 className="mb-3">{t('reviews')}</h4>
+                            <Row className="mt-5 gy-2">
+                                <Col sm={8}>
+                                    <h4 className="pb-3">{t('reviews')}</h4>
+                                </Col>
+                                <Col sm={4}>
+                                    {!isWriteReviewOn && isUserAuthenticated && (
+                                        <div className="p-3 d-flex justify-content-center">
+                                            <Button
+                                                variant="primary"
+                                                onClick={toggleReviewEditor}
+                                            >
+                                                {t('makeReview')}
+                                            </Button>
+                                        </div>
 
-                                {!isWriteReviewOn && isUserAuthenticated && (
-                                    <Button
-                                        variant="primary"
-                                        onClick={toggleReviewEditor}
-                                    >
-                                        {t('makeReview')}
-                                    </Button>
-                                )}
+                                    )}
+                                </Col>
 
-                                {isWriteReviewOn && <AddReview phoneId={productData._id} reviewEditorOffFc={() => setWriteReviewOn(false)} />}
+                                {isWriteReviewOn && <AddReview
+                                    phoneId={productData._id}
+                                    reviewEditorOffFc={() => setWriteReviewOn(false)}
+                                    reloadFc={getPhoneReviews}
+                                />}
 
                                 {productReviews
                                     ? productReviews.map((review, i) => <SingleReview key={`review-${i}`} data={review} />)

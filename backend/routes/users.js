@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const users = express.Router()
 const UserModel = require('../models/UserModel')
 
-users.get('/user/:userId', async (req, res) => {
+users.get('/user/:userId', async (req, res, next) => {
     const {userId} = req.params
 
     try {
@@ -25,15 +25,11 @@ users.get('/user/:userId', async (req, res) => {
             })
 
     } catch (error) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: error.message
-            })
+        next(error)
     }
 })
 
-users.get('/check-user', async (req, res) => {
+users.get('/check-user', async (req, res, next) => {
     const [key, value] = Object.entries(req.query)[0]
     
     try {
@@ -55,15 +51,11 @@ users.get('/check-user', async (req, res) => {
             })
 
     } catch (error) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: error.message
-            })
+        next(error)
     }
 })
 
-users.post('/user/create', async (req, res) => {
+users.post('/user/create', async (req, res, next) => {
     const newUser = new UserModel(req.body)
 
     try {
@@ -76,15 +68,11 @@ users.post('/user/create', async (req, res) => {
                 result
             })
     } catch (error) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: error.message
-            })
+        next(error)
     }
 })
 
-users.post('/login', async (req, res) => {
+users.post('/login', async (req, res, next) => {
     const {username, password} = req.body
 
     try {
@@ -115,11 +103,7 @@ users.post('/login', async (req, res) => {
                 userFound
             })
     } catch (error) {
-        res.status(500)
-            .send({
-                statusCode: 500,
-                message: error.message
-            })
+        next(error)
     }
 })
 
